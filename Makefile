@@ -1,11 +1,7 @@
 CC=					clang
 LD=					clang
 
-TARGET_NAME=		htf_build
-PREFIX=				lib
-POSTFIX=			.a
-TARGET=				$(PREFIX)$(TARGET_NAME)$(POSTFIX)
-TEST_TARGET=		run_tests
+TARGET=				htf_build
 SRC_DIR=			src
 INCLUDE_DIR=		include
 BUILD_DIR=			build
@@ -31,14 +27,14 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 
 $(TARGET): $(OBJS)
 	@echo "target"
-	ar rsc $@ $^
+	$(CC) $(CCFLAGS) $(OBJS) -o $@
 
 clean:
 	@echo "clean"
 	rm -rf $(BUILD_DIR) $(TARGET) $(TEST_TARGET) *.core
 
 commit:
-	echo "commit"
+	@echo "commit"
 	git add .
 	git commit -m "AUTO COMMIT: `date +'%Y-%m-%d %H:%M:%S'`"
 	git push origin main
@@ -47,9 +43,13 @@ install:
 	rm -rf /usr/local/lib/$(TARGET)
 	cp $(TARGET) /usr/local/lib
 
+run: $(TARGET)
+	@echo "run"
+	./$(TARGET)
+
 $(TEST_TARGET): $(TEST_SRCS) $(TARGET)
 	@echo "test target"
-	$(CC) $(CCFLAGS) $(TEST_SRCS) -L. -l$(TARGET_NAME) -o $(TEST_TARGET)
+	$(CC) $(CCFLAGS) $(SRCS) $(TEST_SRCS) -o $(TEST_TARGET)
 
 test: $(TEST_TARGET)
 	@echo "test"	
@@ -59,5 +59,5 @@ debug: $(TEST_TARGET)
 	@echo "debug"
 	lldb -o "process handle SIGTRAP -n true -s true -p true" -o "run" -- $(TEST_TARGET)
 
-.PHONY: clean commit install all test debug
+.PHONY: clean commit install all run test debug
 
