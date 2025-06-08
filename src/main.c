@@ -1,8 +1,10 @@
 #include "htf_build.h"
 
 int
-main(void)
+main(int argc, char **argv)
 {
-	printf("Hello, World!\n");
+	(void) argc;
+	(void) argv;
+	test_htf_build_compile();
 	return 0;
 }

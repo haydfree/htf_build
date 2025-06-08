@@ -1,8 +1,8 @@
 #include "test.h"
 
-int
-main(void)
+void
+test_htf_build_compile(void)
 {
-	printf("Hello, World!\n");
-	return 0;
+	htf_build_compile("example/example.c");
+	printf("All tests passed!\n");
 }
