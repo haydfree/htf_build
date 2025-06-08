@@ -1,7 +1,10 @@
 CC=					clang
 LD=					clang
 
-TARGET=				libhtf_build.a
+TARGET_NAME=		htf_build
+PREFIX=				lib
+POSTFIX=			.a
+TARGET=				$(PREFIX)$(TARGET_NAME)$(POSTFIX)
 TEST_TARGET=		run_tests
 SRC_DIR=			src
 INCLUDE_DIR=		include
@@ -46,7 +49,7 @@ install:
 
 $(TEST_TARGET): $(TEST_SRCS) $(TARGET)
 	@echo "test target"
-	$(CC) $(CCFLAGS) $(TEST_SRCS) -L. -ldsa -o $(TEST_TARGET)
+	$(CC) $(CCFLAGS) $(TEST_SRCS) -L. -l$(TARGET_NAME) -o $(TEST_TARGET)
 
 test: $(TEST_TARGET)
 	@echo "test"	
