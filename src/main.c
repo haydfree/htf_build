@@ -5,6 +5,7 @@ main(int argc, char **argv)
 {
 	(void) argc;
 	(void) argv;
-	test_htf_build_compile();
+
+	printf("Hello, World!\n");
 	return 0;
 }
